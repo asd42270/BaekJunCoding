@@ -1,31 +1,34 @@
 import sys
+input = sys.stdin.read
+data = input().split()
 
-string = sys.stdin.readline().rstrip()
+S = data[0]
+q = int(data[1])
 
-n = int(sys.stdin.readline().rstrip())
-result=[]
+# 알파벳별 누적 합 배열을 딕셔너리로 생성
+prefix_sum = {chr(c): [0] * (len(S) + 1) for c in range(ord('a'), ord('z') + 1)}
 
-# 문자의 위치를 저장할 리스트를 초기화합니다.
-index = {}
+# 누적 합 배열을 채우기
+for i in range(len(S)):
+    char = S[i]
+    for c in prefix_sum:
+        prefix_sum[c][i + 1] = prefix_sum[c][i] + (1 if char == c else 0)
 
-# 문자열을 한 번 순회하여 각 문자들의 위치를 저장합니다.
-for i in range(len(string)):
-    if string[i] not in index:
-        index[string[i]] = []
-    index[string[i]].append(i)
+# 질문을 처리하기
+results = []
+index = 2
+for _ in range(q):
+    a = data[index]
+    l = int(data[index + 1])
+    r = int(data[index + 2])
+    index += 3
+    
+    if l == 0:
+        result = prefix_sum[a][r + 1]
+    else:
+        result = prefix_sum[a][r + 1] - prefix_sum[a][l]
+    
+    results.append(result)
 
-
-for _ in range(n):
-    a, l, r = map(str,sys.stdin.readline().split())
-    cnt = 0
-
-    # 문자가 문자열에 존재하는 경우에만 처리합니다.
-    if a in index:
-        for i in index[a]:
-            if int(l) <= i and i <= int(r):
-                cnt += 1
-
-    result.append(cnt)
-
-for elem in result:
-    print(elem)
+# 결과 출력
+sys.stdout.write('\n'.join(map(str, results)) + '\n')
