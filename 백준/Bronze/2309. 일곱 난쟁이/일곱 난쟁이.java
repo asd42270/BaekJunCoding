@@ -1,31 +1,40 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.io.IOException;
+
+
+
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int[] dwarfs = new int[9];
-        for (int i = 0; i < 9; i++) {
-            dwarfs[i] = sc.nextInt();
-        }
-
-        int sum = Arrays.stream(dwarfs).sum();
-        Arrays.sort(dwarfs);
-
-        // 두 명의 난쟁이를 찾음
-        outerLoop:
-        for (int i = 0; i < 9; i++) {
-            for (int j = i + 1; j < 9; j++) {
-                if (sum - dwarfs[i] - dwarfs[j] == 100) {
-                    for (int k = 0; k < 9; k++) {
-                        if (k != i && k != j) { // 제외된 두 명을 건너뜀
-                            System.out.println(dwarfs[k]);
-                        }
-                    }
-                    break outerLoop; // 정답을 찾으면 종료
-                }
-            }
-        }
-    }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int[] dwarfs = new int[9];
+		
+		for (int i = 0; i < dwarfs.length; i++) {
+			dwarfs[i] = Integer.parseInt(br.readLine());
+		}
+		
+		int sum = Arrays.stream(dwarfs).sum();
+		
+		for (int i = 0; i < dwarfs.length-1; i++) {
+			for (int j = i+1; j < dwarfs.length; j++) {
+				if (sum - (dwarfs[i]+dwarfs[j]) == 100) {
+					dwarfs[i] = 0;
+					dwarfs[j] = 0;
+					
+					break;
+				}
+			}
+			
+			if(dwarfs[i]==0) {break;}
+		}
+		
+		Arrays.sort(dwarfs);
+		
+		for (int i = 2; i < dwarfs.length; i++) {
+			System.out.println(dwarfs[i]);
+		}
+	}
 }
