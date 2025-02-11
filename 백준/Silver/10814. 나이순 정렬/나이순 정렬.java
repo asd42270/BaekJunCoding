@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 
 //11560 11651 1181 02.12에 다시 풀어보기
@@ -10,32 +13,28 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
         int N = Integer.parseInt(br.readLine());
 
-        String[][] arr = new String[N][3];
+        String[][] memberInfo = new String[N][2];
 
-
-        for (int i = 0; i < N; i++) {
-            String[] ageName = br.readLine().split(" ");
-            arr[i][0] = ageName[0];
-            arr[i][1] = ageName[1];
-            arr[i][2] = String.valueOf(i);
-
+        for (int i=0; i<N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            memberInfo[i][0] = st.nextToken();
+            memberInfo[i][1] = st.nextToken();
         }
 
-        Arrays.sort(arr, ((o1, o2) -> {
-            int num = Integer.compare(Integer.parseInt(o1[0]), Integer.parseInt(o2[0]));
+        //숫자를 기준으로 정렬
+        Arrays.sort(memberInfo, ((o1, o2) -> Integer.compare(Integer.parseInt(o1[0]), Integer.parseInt(o2[0]    ))));
 
-            if (num != 0) {
-                return num;
-            } else {
-                return Integer.compare(Integer.parseInt(o1[2]), Integer.parseInt(o2[2]));
-            }
-        }));
-
-        for (int i = 0; i < N; i++) {
-            System.out.println(arr[i][0] + " " + arr[i][1]);
+        for (String[] i : memberInfo) {
+            sb.append(i[0]).append(" ").append(i[1]).append("\n");
         }
+
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
     }
 
 }
