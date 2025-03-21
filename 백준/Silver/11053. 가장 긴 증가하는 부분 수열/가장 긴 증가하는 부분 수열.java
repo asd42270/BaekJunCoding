@@ -11,29 +11,22 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		int[] arr = new int[N];
 		
+		
 		st = new StringTokenizer(br.readLine(), " ");
 		for (int i=0; i<N; i++) {
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		int[] dp = new int[N]; // i번째까지 왔을 떄 가장 긴 증가하는 부분 수열의 수
-		
-		Arrays.fill(dp, 1);
-		
-		for (int i=0; i<N; i++) {
-			for (int j=0; j<i; j++) {
-				if(arr[i] > arr[j]) {
-					dp[i] = Math.max(dp[i], dp[j]+1);
-				}
-			}
+		List<Integer> list = new ArrayList<Integer>(); //지금까지 만들 수 있는 가장 짧은 증가 수열
+		for (int num : arr) {
+			int idx = Collections.binarySearch(list, num);
+			
+			if (idx < 0) idx = -idx - 1;
+			
+			if (idx == list.size()) list.add(num); // 더 크면 뒤에 추가
+			else list.set(idx, num);
 		}
 		
-
-		int max =Integer.MIN_VALUE;
-		for (int i=0; i<N; i++) {
-			max = Math.max(max, dp[i]);
-		}
-		
-		System.out.println(max);
+		System.out.println(list.size());
 	}
 }
