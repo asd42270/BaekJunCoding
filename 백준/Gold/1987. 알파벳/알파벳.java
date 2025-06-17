@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 public class Main {
 	
 	static char[][] map;
-	static int[] count;
+	static boolean[] count;
 	static int R, C, max;
 	
 	static int[] dx = {-1, 1, 0, 0};
@@ -29,7 +29,7 @@ public class Main {
 			}
 		}
 		
-		count = new int[91];
+		count = new boolean[26];
 		
 		// 이거는 dfs가 맞아요
 		dfs(0, 0, 1);
@@ -39,7 +39,7 @@ public class Main {
 
 	private static void dfs(int x, int y, int depth) {
 
-		count[map[x][y]]++;
+		count[map[x][y]- 65] = true;
 		
 		max = Math.max(depth, max);
 		
@@ -47,9 +47,9 @@ public class Main {
 			int nx = x + dx[i];
 			int ny = y + dy[i];
 			
-			if(nx >=0 && nx < R && ny >=0 && ny < C && count[map[nx][ny]] == 0) {
+			if(nx >=0 && nx < R && ny >=0 && ny < C && !count[map[nx][ny] - 65]) {
 				dfs(nx, ny, depth+1);
-				count[map[nx][ny]]--;
+				count[map[nx][ny] - 65] = false;
 			}
 		}
 		
